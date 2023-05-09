@@ -1,48 +1,39 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import css from './Searchbar.module.css';
 import PropTypes from 'prop-types';
 
-export class Searchbar extends Component {
-  state = {
-    search: '',
-  };
+export const Searchbar = ({ onSearch }) => {
+  const [search, setSearch] = useState('');
 
-  onChange = event => {
-    this.setState({
-      search: event.target.value,
-    });
-  };
-
-  onSubmit = event => {
+  const onSubmit = event => {
     event.preventDefault();
-    const search = this.state.search.toLowerCase().trim();
-    if (!search) return;
-    this.props.search(search);
+    const value = search.toLowerCase().trim();
+    if (value) onSearch(value);
   };
 
-  render() {
-    return (
-      <header className={css.Searchbar}>
-        <form className={css.SearchForm} onSubmit={this.onSubmit}>
-          <button type="submit" className={css.button}>
-            <FiSearch />
-          </button>
-          <input
-            className={css.inputSearch}
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={this.onChange}
-            value={this.state.search}
-          />
-        </form>
-      </header>
-    );
-  }
-}
+  return (
+    <header className={css.Searchbar}>
+      <form className={css.SearchForm} onSubmit={onSubmit}>
+        <button type="submit" className={css.button}>
+          <FiSearch />
+        </button>
+        <input
+          className={css.inputSearch}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          onChange={event => {
+            setSearch(event.target.value);
+          }}
+          value={search}
+        />
+      </form>
+    </header>
+  );
+};
 
 Searchbar.propTypes = {
-  search: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
 };
