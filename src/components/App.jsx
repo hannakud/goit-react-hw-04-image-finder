@@ -50,7 +50,7 @@ export const App = () => {
   };
 
   const loadMore = () => {
-    setIsLoading(prevState => prevState.page + 1);
+    setPage(prevPage => prevPage + 1);
   };
 
   const openModal = modalData => {
