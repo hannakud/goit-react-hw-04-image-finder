@@ -28,8 +28,13 @@ export const App = () => {
           id: image.id,
           tags: image.tags,
         }));
-        setImages(imagesList);
+        if (page === 1) {
+          setImages(imagesList);
+        } else {
+          setImages(prevImages => [...prevImages, ...imagesList]);
+        }
         setTotal(response.totalHits);
+
         if (response.hits.length === 0) {
           toast.error('There is no images found with that search request');
         }
